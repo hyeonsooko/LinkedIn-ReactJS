@@ -28,6 +28,11 @@ const Mainside = (props) => {
                     </button>
                 </div>
             </ShareBox>
+            <div>
+                <Article>
+                    Article
+                </Article>
+            </div>
         </Container>
     )
 }
