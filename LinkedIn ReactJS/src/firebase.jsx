@@ -1,4 +1,7 @@
-import { initializeApp } from 'firebase/app'
+import { initializeApp } from 'firebase/app';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -11,11 +14,12 @@ const firebaseConfig = {
   };
   
   // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = firebaseApp.firestore()
-  const auth = firebase.auth()
-  const provider = new firebase.auth.GoogleAuthProvider()
-  const storage = firebase.storage()
+  const firebaseApp = initializeApp(firebaseConfig);
+  // initialize services
+  const db = getFirestore(firebaseApp);
+  const auth = getAuth(firebaseApp);
+  const provider = new GoogleAuthProvider();
+  const storage = getStorage(firebaseApp);
 
   export { auth, provider, storage }
   export default db
