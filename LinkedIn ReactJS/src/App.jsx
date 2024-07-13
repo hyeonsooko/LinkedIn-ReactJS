@@ -3,6 +3,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import ErrorPage from "./error-page";
 import Home from "./components/Home.jsx"
 import Header from './components/Header.jsx'
+import { useEffect } from 'react';
+import { getUserAuth } from "./actions"
+import { connect } from 'react-redux'
 
 const router = createBrowserRouter([
   {
@@ -23,7 +26,10 @@ const router = createBrowserRouter([
   },
 ]);
 
-function App() {
+function App(props) {
+  useEffect(() => {
+    props.getUserAuth()
+  }, [])
 
   return(
     <>
@@ -32,4 +38,12 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = (sate) => {
+  return {}
+}
+
+const mapDispatchToProps = (dispatch) => ({
+  getUserAuth: () => dispatch(getUserAuth()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

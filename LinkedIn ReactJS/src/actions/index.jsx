@@ -1,12 +1,17 @@
 import { auth, provider } from '../firebase'
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { SET_USER } from './actionType'
 import firebaseApp from '../firebase.jsx'
+
+export const setUser = (result) => ({
+  type: SET_USER,
+  user: result
+})
 
 export function signInAPI() {
     return (dispatch) => {
         signInWithPopup(auth, provider)
           .then((result) => {
-            console.log(result)
             // This gives you a Google Access Token. You can use it to access the Google API.
             const credential = GoogleAuthProvider.credentialFromResult(result);
             const token = credential.accessToken;
@@ -14,6 +19,7 @@ export function signInAPI() {
             const user = result.user;
             // IdP data available using getAdditionalUserInfo(result)
             // ...
+            dispatch(setUser(user))
           }).catch((error) => {
             // Handle Errors here.
             const errorCode = error.code;
@@ -25,4 +31,14 @@ export function signInAPI() {
             // ...
           });
     }
+}
+
+export function getUserAuth() {
+  return (dispatch) => {
+    auth.onAuthStateChanged(async (user) => {
+      if(user) {
+        dispatch(setUser(user))
+      }
+    })
+  }
 }
