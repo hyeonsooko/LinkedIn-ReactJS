@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { connect } from 'react-redux'
 
 const Mainside = (props) => {
     return(
@@ -6,7 +7,11 @@ const Mainside = (props) => {
             <ShareBox>
                 Share
                 <div>
+                    { 
+                    props.user && props.user.photoURL ? 
+                    <img src={props.user.photoURL} /> :
                     <img src="/images/user.svg" />
+                    }
                     <button>Start a post</button>
                 </div>
                 <div>
@@ -32,7 +37,11 @@ const Mainside = (props) => {
                 <Article>
                     <SharedActor>
                         <a>
-                            <img src="/images/user.svg" alt="" />
+                            { 
+                            props.user && props.user.photoURL ? 
+                            <img src={props.user.photoURL} /> :
+                            <img src="/images/user.svg" />
+                            }
                             <div>
                                 <span>Title</span>
                                 <span>Info</span>
@@ -283,4 +292,12 @@ const SocialActions = styled.div`
     }
 `;
 
-export default Mainside;
+const mapStateToProps = (state) => {
+    return {
+        user: state.userState.user,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => ({})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Mainside)
