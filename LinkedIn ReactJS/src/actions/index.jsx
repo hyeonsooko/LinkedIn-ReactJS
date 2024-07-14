@@ -1,5 +1,5 @@
 import { auth, provider } from '../firebase'
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth'
 import { SET_USER } from './actionType'
 import firebaseApp from '../firebase.jsx'
 
@@ -39,6 +39,18 @@ export function getUserAuth() {
       if(user) {
         dispatch(setUser(user))
       }
+    })
+  }
+}
+
+export function signOutAPI() {
+  return (dispatch) => {
+    signOut(auth, provider)
+    .then(() => {
+      dispatch(setUser(null))
+    })
+    .catch((error) => {
+      console.log(error.message)
     })
   }
 }
