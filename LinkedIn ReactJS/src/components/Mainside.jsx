@@ -1,7 +1,28 @@
 import styled from 'styled-components'
 import { connect } from 'react-redux'
+import PostModal from './PostModal'
+import { useState } from 'react'
 
 const Mainside = (props) => {
+    const [showModal, setShowModal] = useState('close')
+    const handleClick = (e) => {
+        e.preventDefault();
+        if (e.target !== e.currentTarget) {
+            return;
+        }
+
+        switch(showModal){
+            case "open":
+                setShowModal('close');
+                break;
+            case 'close':
+                setShowModal('open');
+                break;
+            default:
+                setShowModal('close');
+                break;
+        }
+    }
     return(
         <Container>
             <ShareBox>
@@ -12,7 +33,7 @@ const Mainside = (props) => {
                     <img src={props.user.photoURL} /> :
                     <img src="/images/user.svg" />
                     }
-                    <button>Start a post</button>
+                    <button onClick={handleClick}>Start a post</button>
                 </div>
                 <div>
                     <button>
@@ -92,6 +113,7 @@ const Mainside = (props) => {
                     </SocialActions>
                 </Article>
             </div>
+            <PostModal showModal={showModal} handleClick={handleClick} />
         </Container>
     )
 }
